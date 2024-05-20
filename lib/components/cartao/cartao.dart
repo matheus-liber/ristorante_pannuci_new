@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panucci_delivery/components/cartao/cartao_controller.dart';
+import 'package:panucci_delivery/controllers/carrinho_controller.dart';
 import 'package:panucci_delivery/utils/sbackbars.dart';
 
 import '../../models/item.dart';
@@ -15,6 +16,7 @@ class Cartao extends StatefulWidget {
 
 class _CartaoState extends State<Cartao> {
   late CartaoController controller;
+  final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
 
   @override
   void initState() {
@@ -64,6 +66,7 @@ class _CartaoState extends State<Cartao> {
                           if (controller.counter > 0) {
                             controller.decrement();
                             AppSnackbars.getRemoveItem(widget.item);
+                            carrinhoController.removeFromCart(widget.item);
                           }
                         },
                         child: const Icon(
@@ -77,6 +80,7 @@ class _CartaoState extends State<Cartao> {
                         onTap: () {
                           controller.increment();
                           AppSnackbars.getAddItem(widget.item);
+                          carrinhoController.addToCart(widget.item);
                         },
                         child: const Icon(
                           Icons.add_circle_outline,

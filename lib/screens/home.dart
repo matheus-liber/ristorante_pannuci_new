@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:panucci_delivery/components/item_list.dart';
+import 'package:panucci_delivery/controllers/carrinho_controller.dart';
+import 'package:panucci_delivery/screens/checkout.dart';
 import '../components/categoria_text.dart';
 import '../components/search_input.dart';
 
@@ -7,6 +10,7 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
 
   final TextEditingController searchTextController = TextEditingController();
+  final CarrinhoController carrinhoController = Get.put(CarrinhoController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class Home extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
                   onTap: () {
-
+                    Get.to(() => Checkout());
                   },
                   child: Ink(
                       width: double.infinity,
@@ -55,12 +59,14 @@ class Home extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
-                                    child: Text(
-                                      "0",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: 
-                                          Theme.of(context).colorScheme.onPrimary),
+                                    child: Obx(
+                                      () => Text(
+                                        "${carrinhoController.carrinho.length}",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: 
+                                            Theme.of(context).colorScheme.onPrimary),
+                                      ),
                                     ),
                                   ),
                                   Icon(
@@ -84,12 +90,14 @@ class Home extends StatelessWidget {
                             ),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Text(
-                                "R\$ 00,00",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color:
-                                    Theme.of(context).colorScheme.onPrimary),
+                              child: Obx(
+                                () => Text(
+                                  "R\$ ${carrinhoController.total.toStringAsFixed(2)}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                                ),
                               ),
                             ),
                           ])),
